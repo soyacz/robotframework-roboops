@@ -31,10 +31,10 @@ jobs:
           sudo apt-get update;
           sudo apt-get install --no-install-recommends -y curl build-essential;
       - name: Install poetry
-        run: curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+        run: curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python3
       
       - name: install robot framework
         run: pip install robotframework
       # Runs a set of commands using the runners shell
       - name: Run robot pipeline
-        run: python -m robot.run .
+        run: python3 -m robot.run .
