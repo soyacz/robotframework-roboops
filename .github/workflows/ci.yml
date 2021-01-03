@@ -34,7 +34,7 @@ jobs:
         run: curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python3
       
       - name: install robot framework
-        run: pip install robotframework
+        run: pip3 install robotframework
       # Runs a set of commands using the runners shell
       - name: Run robot pipeline
-        run: python3 -m robot.run .
+        run: python3 -m robot.run pipeline.robot
