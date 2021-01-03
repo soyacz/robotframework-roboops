@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "robotframework-roboops"
+version = "0.1.0"
+description = "Robot Framework's library for creating and running DevOps tasks easily and efficiently."
+authors = ["Łukasz Sójka <soyacz@gmail.com>"]
+maintainers = ["Łukasz Sójka <soyacz@gmail.com>"]
+license = "Apache 2.0"
+readme = "README.md"
+homepage = ""
+repository = "https://github.com/soyacz/robotframework-roboops/"
+documentation = "https://github.com/soyacz/robotframework-roboops/"
+keywords = [
+    "CI",
+    "CD"
+]
+packages = [
+    { include = "RoboOps" }
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+robotframework = "^3.2.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.1"
+coverage = "^5.3.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.urls]
+robot_framework_user_guide = "https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html"
+
