@@ -30,11 +30,6 @@ jobs:
         with:
           python-version: 3.8
 
-      # Runs a single command using the runners shell
-      - name: Install system libs
-        run: |
-          sudo apt-get update;
-          sudo apt-get install --no-install-recommends -y curl build-essential;
       - name: Install poetry
         run: curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python3
       
