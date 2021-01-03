@@ -25,3 +25,4 @@ def robot_suite(artifacts_dir):
     suite = TestSuite('RoboOps Test Suite')
     suite.resource.imports.library('RoboOps', args=[artifacts_dir])
     return suite
+

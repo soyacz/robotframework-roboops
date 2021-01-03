@@ -1,4 +1,3 @@
-import shutil
 import subprocess
 from pathlib import Path
 from robot.libraries.BuiltIn import BuiltIn
@@ -25,6 +24,9 @@ class ErrorsAreFatal:
         if not result.passed:
             self.test_failed = True
 
+    def close(self):
+        # added as unit tests somehow kept the state
+        self.test_failed = False
 
 @library(scope='TEST SUITE', version='1.0', doc_format='reST', listener=ErrorsAreFatal())
 class RoboOps:
@@ -39,9 +41,9 @@ class RoboOps:
         if not shell:
             command = shlex.split(command)
         result = subprocess.run(command, capture_output=True, text=True, shell=shell, cwd=cwd)
-        logger.info(f"stdout: {result.stdout}")
+        logger.info(result.stdout)
         if result.stderr:
-            logger.error(f"{result.stderr}")
+            logger.error(result.stderr)
         if not ignore_rc:
             result.check_returncode()
 

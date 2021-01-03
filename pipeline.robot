@@ -5,8 +5,8 @@ Library    RoboOps
 ${atest dir}     ${CURDIR}/atest    
 &{install python env}    command=poetry install
 # &{unit tests}    command=poetry run pytest .
-&{unit tests}    command=poetry run coverage run --source=. -m pytest .
-&{report coverage}    command=poetry run coverage report -m
+&{unit tests}    command=poetry run coverage run --source=RoboOps -m pytest .
+&{report coverage}    command=poetry run coverage report -m --fail-under=80
 &{generate wheel}    command=poetry build
 &{remove stale roboops package from atest env}    command=poetry remove robotframework-roboops    cwd=${atest dir}    ignore_rc=True
 &{install atest env}    command=poetry install    cwd=${atest dir}   

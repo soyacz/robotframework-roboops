@@ -6,8 +6,7 @@ Force Tags    noncritical
 
 *** Tasks ***
 First Stage
-    No operation
-    # Fail    failing this taks - next one should not execute at all
+    Fail    failing this taks - next one should not execute at all
     [Teardown]    log    nothing    console=True
     
     
