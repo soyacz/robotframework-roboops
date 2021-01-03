@@ -45,3 +45,14 @@ jobs:
         run: |
           source $HOME/.poetry/env;
           python3 -m robot.run pipeline.robot;
+
+      - name: Upload arifacts
+        uses: actions/upload-artifact@v2
+        with: 
+          name: pipeline assets
+          path: |
+            report.html
+            log.html
+            output.xml
+            artifacts
+
