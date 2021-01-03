@@ -4,7 +4,6 @@ Library    RoboOps
 *** Variables ***
 ${atest dir}     ${CURDIR}/atest    
 &{install python env}    command=poetry install
-# &{unit tests}    command=poetry run pytest .
 &{unit tests}    command=poetry run coverage run --source=RoboOps -m pytest .
 &{report coverage}    command=poetry run coverage report -m --fail-under=80
 &{generate wheel}    command=poetry build

@@ -1,14 +1,14 @@
 *** Settings ***
 Documentation    one failing task should prevent from running the rest ones.
 ...     Execute this test with --noncritical:noncritical and --critical  critical
-Library    RoboOps
+Resource    settings.robot
+Library    RoboOps    ${ARTIFACTS DIR}
 Force Tags    noncritical
 
 *** Tasks ***
 First Stage
     Fail    failing this taks - next one should not execute at all
-    [Teardown]    log    nothing    console=True
-    
+    [Teardown]    log    nothing    console=True  
     
 Second Stage
     [setup]    Remove Tags    noncritical
