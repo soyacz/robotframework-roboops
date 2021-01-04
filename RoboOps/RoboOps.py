@@ -40,10 +40,10 @@ class RoboOps:
         logger.info(f"running: '{command}' {'in shell' if shell else ''}", also_console=True)
         if not shell:
             command = shlex.split(command)
-        result = subprocess.run(command, capture_output=True, text=True, shell=shell, cwd=cwd)
-        logger.info(result.stdout)
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell, cwd=cwd)
+        logger.info(result.stdout.decode())
         if result.stderr:
-            logger.error(result.stderr)
+            logger.error(result.stderr.decode())
         if not ignore_rc:
             result.check_returncode()
 
