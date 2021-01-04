@@ -5,7 +5,7 @@ description = "clean env for acceptance tests for roboops"
 authors = ["Łukasz Sójka <soyacz@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.6"
 robotframework = "^3.2.2"
 robotframework-roboops = {path = ".."}
 

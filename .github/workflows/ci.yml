@@ -42,7 +42,7 @@ jobs:
           python3 -m robot.run pipeline.robot;
 
       - name: Upload arifacts
-        if: ${{ always() }}
+        if: always()
         uses: actions/upload-artifact@v2
         with: 
           name: pipeline assets
