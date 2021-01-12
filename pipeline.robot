@@ -12,7 +12,7 @@ ${atest dir}     ${CURDIR}/atest
 &{install atest roboops package from whl}    command=poetry add ../    cwd=${atest dir}  
 &{run atests}    command=poetry run robot --noncritical noncritical .    cwd=${atest dir}
 &{get package version}    command=poetry version -s
-${PACKAGE URL}    https://pypi.python.org/pypi/robotframework-roboops/json
+${PACKAGE URL}    https://pypi.org/pypi/robotframework-roboops/json
 
 *** Tasks ***
 Unit Test Stage
@@ -31,12 +31,23 @@ Acceptance Test Stage
     [Teardown]    Save Acceptance Tests Artifacts
 
 Validate Version
-    ${result}    Roboops Run Command    &{get package version}
-    Should Not Be True     ${{requests.get("${PACKAGE URL}").json()["releases"].get("${result.stdout.decode()[:-1]}", False)}}
-    ...    msg=This version already exists. Did you forget bump up version?
+    ${current version}    Get Current RoboOps Version
+    ${pypi versions}    Get Released Versions From PyPi
+    Should Not Be True     $current_version in $pypi_versions
+    ...    msg=This version already exists. Did you forget bump up the RoboOps version?
 
 *** Keywords ***
 Save Acceptance Tests Artifacts
     Roboops Save File Artifact    ${atest dir}/log.html    atest_log.html
     Roboops Save File Artifact    ${atest dir}/report.html    atest_report.html
     Roboops Save File Artifact    ${atest dir}/output.xml    atest_output.xml
+
+Get Current RoboOps Version
+    ${result}    Roboops Run Command    &{get package version}
+    [Return]    ${{$result.stdout.decode()[:-1]}}
+
+Get Released Versions From PyPi
+    ${result}    Roboops Run Command    curl -s ${PACKAGE URL}
+    ${pypi versions}    Set Variable    ${{json.loads($result.stdout.decode())["releases"].keys()}}
+    Should Not Be Empty    ${pypi versions}    Couldn't get releases from pypi
+    [Return]    ${pypi versions}
