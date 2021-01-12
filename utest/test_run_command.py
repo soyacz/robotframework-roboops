@@ -20,3 +20,10 @@ class TestRunCommandKeyword:
             roboops.roboops_run_command("echo hello command", shell=True)
             mocked_subprocess_run.assert_called_once_with("echo hello command",
                                                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=None)
+
+    def test_returns_result_of_executed_command(self):
+        roboops = RoboOps()
+
+        result = roboops.roboops_run_command("echo hello command", shell=True)
+
+        assert result.stdout.decode() == "hello command\n"

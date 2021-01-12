@@ -11,6 +11,8 @@ ${atest dir}     ${CURDIR}/atest
 &{install atest env}    command=poetry install    cwd=${atest dir}   
 &{install atest roboops package from whl}    command=poetry add ../    cwd=${atest dir}  
 &{run atests}    command=poetry run robot --noncritical noncritical .    cwd=${atest dir}
+&{get package version}    command=poetry version -s
+${PACKAGE URL}    https://pypi.python.org/pypi/robotframework-roboops/json
 
 *** Tasks ***
 Unit Test Stage
@@ -27,6 +29,11 @@ Acceptance Test Stage
     Roboops Run Command    &{install atest roboops package from whl}
     Roboops Run Command    &{run atests}
     [Teardown]    Save Acceptance Tests Artifacts
+
+Validate Version
+    ${result}    Roboops Run Command    &{get package version}
+    Should Not Be True     ${{requests.get("${PACKAGE URL}").json()["releases"].get("${result.stdout.decode()[:-1]}", False)}}
+    ...    msg=This version already exists. Did you forget bump up version?
 
 *** Keywords ***
 Save Acceptance Tests Artifacts

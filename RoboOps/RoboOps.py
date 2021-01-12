@@ -36,7 +36,7 @@ class RoboOps:
         self.artifacts_dir.mkdir(parents=True, exist_ok=True)
 
     @keyword
-    def roboops_run_command(self, command: str, shell: bool = False, cwd: str=None, ignore_rc: bool = False):
+    def roboops_run_command(self, command: str, shell: bool = False, cwd: str=None, ignore_rc: bool = False) -> subprocess.CompletedProcess:
         logger.info(f"running: '{command}' {'in shell' if shell else ''}", also_console=True)
         if not shell:
             command = shlex.split(command)
@@ -46,6 +46,7 @@ class RoboOps:
             logger.error(result.stderr.decode())
         if not ignore_rc:
             result.check_returncode()
+        return result
 
     @keyword
     def roboops_save_file_artifact(self, source: str, name: str=None):

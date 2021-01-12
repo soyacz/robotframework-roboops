@@ -38,3 +38,7 @@ robot pipeline.robot
 So, instead of pushing to repository and wait until your CI/CD tool
 (like Jenkins/Github Actions/Travis etc.) tests if it is ok, run above command to get results 300% faster.
  
+ ## running pipeline with docker (using python 3.6)
+ build docker image and run it:
+ ```docker build -t roboops:1.0.0 .
+ docker run --rm -v "${PWD}":/code --env PYTHONPATH=. roboops:1.0.0```
