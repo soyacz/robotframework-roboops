@@ -30,6 +30,13 @@ Acceptance Test Stage
     Roboops Run Command    &{run atests}
     [Teardown]    Save Acceptance Tests Artifacts
 
+Static Type Checks
+    Roboops Run Command    poetry run mypy RoboOps
+
+Validate Files Formatting
+    [Documentation]    If fails run "poetry run black ."
+    Roboops Run Command    poetry run black --check -q .
+
 Validate Version
     ${current version}    Get Current RoboOps Version
     ${pypi versions}    Get Released Versions From PyPi
