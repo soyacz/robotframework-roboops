@@ -15,14 +15,13 @@ def cleanup_artifacts_dir(artifacts_dir):
 
 @fixture(scope="function")
 def test_artifact():
-    artifact_path = 'test_artifact.txt'
-    open(artifact_path, 'a').close()
+    artifact_path = "test_artifact.txt"
+    open(artifact_path, "a").close()
     return artifact_path
 
 
 @fixture(scope="function")
 def robot_suite(artifacts_dir):
-    suite = TestSuite('RoboOps Test Suite')
-    suite.resource.imports.library('RoboOps', args=[artifacts_dir])
+    suite = TestSuite("RoboOps Test Suite")
+    suite.resource.imports.library("RoboOps", args=[artifacts_dir])
     return suite
-

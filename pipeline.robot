@@ -1,5 +1,6 @@
 *** Settings ***
 Library    RoboOps
+Library    OperatingSystem
 
 *** Variables ***
 ${atest dir}     ${CURDIR}/atest    
@@ -18,7 +19,7 @@ ${PACKAGE URL}    https://pypi.org/pypi/robotframework-roboops/json
 Unit Test Stage
     Roboops Run Command    &{install python env}
     Roboops Run Command    &{unit tests}
-    Roboops Run Command    &{report coverage}
+    Create Coverage Report And Save It
     
 Build Package Stage
     Roboops Run Command    &{generate wheel}
@@ -30,6 +31,13 @@ Acceptance Test Stage
     Roboops Run Command    &{run atests}
     [Teardown]    Save Acceptance Tests Artifacts
 
+Static Type Checks
+    Roboops Run Command    poetry run mypy RoboOps
+
+Validate Files Formatting
+    [Documentation]    If fails run "poetry run black ."
+    Roboops Run Command    poetry run black --check -q .
+
 Validate Version
     ${current version}    Get Current RoboOps Version
     ${pypi versions}    Get Released Versions From PyPi
@@ -37,6 +45,11 @@ Validate Version
     ...    msg=This version already exists. Did you forget bump up the RoboOps version?
 
 *** Keywords ***
+Create Coverage Report And Save It
+    ${coverage}    Roboops Run Command    &{report coverage}
+    Create File    coverage.log    ${coverage.stdout.decode()}
+    Roboops Save File Artifact    coverage.log
+
 Save Acceptance Tests Artifacts
     Roboops Save File Artifact    ${atest dir}/log.html    atest_log.html
     Roboops Save File Artifact    ${atest dir}/report.html    atest_report.html
