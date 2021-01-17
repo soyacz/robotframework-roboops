@@ -86,8 +86,6 @@ Test everything (unit tests, acceptance tests, building wheel) by running:
 ```
 robot pipeline.robot
 ```
-So, instead of pushing to repository and wait until your CI/CD tool
-(like Jenkins/Github Actions/Travis etc.) tests if it is ok, run above command to get results 300% faster.
  
  ## running pipeline with docker (using python 3.6)
  build docker image and run it:
