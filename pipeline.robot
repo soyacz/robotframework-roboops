@@ -9,7 +9,7 @@ ${atest dir}     ${CURDIR}/atest
 &{report coverage}    command=poetry run coverage report -m --fail-under=80
 &{generate wheel}    command=poetry build
 &{remove stale roboops package from atest env}    command=poetry remove robotframework-roboops    cwd=${atest dir}    ignore_rc=True
-&{install atest env}    command=poetry install    cwd=${atest dir}   
+&{install atest env}    command=poetry update   cwd=${atest dir}   
 &{install atest roboops package from whl}    command=poetry add ../    cwd=${atest dir}  
 &{run atests}    command=poetry run robot --noncritical noncritical .    cwd=${atest dir}
 &{get package version}    command=poetry version -s

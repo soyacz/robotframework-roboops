@@ -91,5 +91,7 @@ So, instead of pushing to repository and wait until your CI/CD tool
  
  ## running pipeline with docker (using python 3.6)
  build docker image and run it:
- ```docker build -t roboops:1.0.0 .
- docker run --rm -v "${PWD}":/code --env PYTHONPATH=. roboops:1.0.0```
+ ```
+ docker build -t roboops:latest .
+ docker run --user $(id -u):$(id -g) --rm -v "${PWD}":/code --env PYTHONPATH=. roboops:latest
+ ```
