@@ -31,11 +31,38 @@ class ErrorsAreFatal:
         self.test_failed = False
 
 
-@library(
-    scope="TEST SUITE", version="1.0", doc_format="reST", listener=ErrorsAreFatal()
-)
+@library(scope="TEST SUITE", version="1.0", listener=ErrorsAreFatal())
 class RoboOps:
+    """Library for creating, sharing and running DevOps tasks easily and efficiently.
+
+    When is imported, any failure within a suite is fatal - preventing other steps from execution and failing whole run.
+
+    == Example ==
+    | *** Settings ***
+    | Library    RoboOps
+
+    | *** Variables ***
+    | &{install python env}    command=poetry install
+    | &{unit tests}    command=poetry run coverage run --source=RoboOps -m pytest .
+    | &{report coverage}    command=poetry run coverage report -m --fail-under=80
+    | &{generate wheel}    command=poetry build
+    | *** Tasks ***
+    | Unit Test Stage
+    |     Roboops Run Command    &{install python env}
+    |     Roboops Run Command    &{unit tests}
+    |     ${coverage}    Roboops Run Command    &{report coverage}
+    |     Create File    coverage.log    ${coverage.stdout.decode()}
+    |     Roboops Save File Artifact    coverage.log    coverage.log
+    |
+    | Build Package Stage
+    |     Roboops Run Command    &{generate wheel}
+    """
+
     def __init__(self, artifacts_dir: str = "artifacts"):
+        """RoboOps library can take below optional arguments:
+
+        - ``artifacts_dir`` <str>
+          Points to directory where artifacts will be stored."""
         self.artifacts_dir = Path(artifacts_dir)
         self.artifacts_dir.mkdir(parents=True, exist_ok=True)
 
@@ -47,6 +74,22 @@ class RoboOps:
         cwd: str = None,
         ignore_rc: bool = False,
     ) -> subprocess.CompletedProcess:
+        """Runs given command using subprocess.run and returns result ``subprocess.CompletedProcess`` object.
+
+        Arguments:
+        - ``command`` <str>:
+          Command to be executed.
+        - ``shell`` <bool>:
+          Specifies if command should be executed in separate shell (see subprocess.run documentation for more details).
+          Defaults to ``False``
+        - ``cwd`` <str>:
+          Sets working directory for given command.
+          Defaults to ``None``
+        - ``ignore_rc`` <bool>:
+          Ignore return code.
+          By default if return code of executed command is other than 0, then keyword fails.
+
+        """
         logger.info(
             f"running: '{command}' {'in shell' if shell else ''}", also_console=True
         )
@@ -68,6 +111,13 @@ class RoboOps:
 
     @keyword
     def roboops_save_file_artifact(self, source: Path, name: str = None) -> None:
+        """
+        Moves given file to ``artifacts_dir`` with given name and add to ``Artifacts`` metadata in report for easy view/download
+
+        Arguments:
+        - ``source`` <Path>: Path to file
+        - ``name`` <str>: new name of the file. If not provided, original name will be used.
+        """
         source = Path(source)
         name = name if name else source.name
         destination = self.artifacts_dir / name
