@@ -40,14 +40,14 @@ jobs:
         run: |
           source $HOME/.poetry/env;
           python3 -m robot.run ci.robot;
-      - name: Run robot cd pipeline
+      - name: Publish to PyPi
         if: ${{ github.event_name == 'push' }}
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN}}
         run: |
           source $HOME/.poetry/env;
           poetry config pypi-token.pypi $PYPI_TOKEN
-          python3 -m robot.run cd.robot;
+          poetry publish -n
       - name: Upload arifacts
         if: always()
         uses: actions/upload-artifact@v2
