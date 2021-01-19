@@ -30,7 +30,7 @@ pip install robotframework-roboops
 RoboOps is typical Robotframework library - use it as usual robot library.
 
 As this library is mainly focused on running tasks instead of tests,
-try to use "\*** Tasks \***" instead of "\*** Test Cases \***" in .robot files.
+try to use `*** Tasks ***` instead of `*** Test Cases ***` in `.robot` files.
 
 This repository uses RoboOps for building, testing (and in future deploying) itself.
 See pipeline.robot to see example how to do it.
@@ -87,9 +87,14 @@ Test everything (unit tests, acceptance tests, building wheel) by running:
 robot pipeline.robot
 ```
  
- ## running pipeline with docker (using python 3.6)
- build docker image and run it:
- ```
- docker build -t roboops:latest .
- docker run --user $(id -u):$(id -g) --rm -v "${PWD}":/code --env PYTHONPATH=. roboops:latest
- ```
+## running pipeline with docker (using python 3.6)
+build docker image and run it:
+```
+docker build -t roboops:latest .
+docker run --user $(id -u):$(id -g) --rm -v "${PWD}":/code --env PYTHONPATH=. roboops:latest
+```
+
+# Security considerations
+Be aware that secrets provided in environment variables may be logged by Task (e.g. with `Log` keyword).
+
+So don't provide secrets into steps where .robot file is executed for commits without any reviewers approval.
