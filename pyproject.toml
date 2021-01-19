@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "robotframework-roboops"
-version = "0.2.3"
+version = "0.2.4"
 description = "Robot Framework's library for creating and running DevOps tasks easily and efficiently."
 authors = ["Łukasz Sójka <soyacz@gmail.com>"]
 maintainers = ["Łukasz Sójka <soyacz@gmail.com>"]
@@ -10,6 +10,7 @@ homepage = ""
 repository = "https://github.com/soyacz/robotframework-roboops/"
 documentation = "https://github.com/soyacz/robotframework-roboops/"
 keywords = [
+    "robotframework",
     "CI",
     "CD"
 ]
