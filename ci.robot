@@ -16,9 +16,6 @@ ${atest dir}     ${CURDIR}/atest
 ${PACKAGE URL}    https://pypi.org/pypi/robotframework-roboops/json
 
 *** Tasks ***
-Test secret
-    Log   %{TEST_SECRET}    console=True
-
 Unit Test Stage
     Roboops Run Command    &{install python env}
     Roboops Run Command    &{unit tests}
